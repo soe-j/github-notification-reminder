@@ -30,7 +30,7 @@ end
 attachments = notifications.map do |n|
   {
     color: '#36a64f',
-    author_name: n.repository.full_name,
+    author_name: n.repository.name,
     author_link: n.repository.html_url,
     title: n.subject.title,
     title_link: n.subject.url.gsub('api.github.com/repos', 'github.com').gsub('/pulls/', '/pull/'),
