@@ -17,6 +17,23 @@ def in_business_time?
   true
 end
 
+def filter_notifications notifications
+  return notifications if ENV['GITHUB_NOTIFIED_REPOS'].nil?
+
+  notified_repo_ids = ENV['GITHUB_NOTIFIED_REPOS'].split(',').map(&:to_i)
+
+  return notifications.filter do |n|
+    next false unless notified_repo_ids.include?(n.repository.id)
+
+    # dependabot
+    next false if n.subject.title.start_with?('Bump ')
+    next false if n.subject.title.start_with?('chore(deps): ')
+
+    next false unless n.unread
+    true
+  end
+end
+
 github_client = Octokit::Client.new(access_token: ENV['GITHUB_API_TOKEN'])
 slack_client = Slack::Web::Client.new(token: ENV['SLACK_API_TOKEN'])
 
@@ -27,7 +44,14 @@ unless ENV['RUBY_ENV'] == 'development'
   return unless in_business_time?
 end
 
-attachments = notifications.map do |n|
+pp 'ALL REPOS BEFORE FILTER', *(notifications.map do |n|
+  "#{n.repository.id} #{n.repository.name}"
+end.uniq)
+
+filtered_notifications = filter_notifications(notifications)
+return if filtered_notifications.empty?
+
+attachments = filtered_notifications.map do |n|
   {
     color: '#36a64f',
     author_name: n.repository.name,
