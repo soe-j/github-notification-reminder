@@ -10,6 +10,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     concurrent-ruby (1.1.6)
+    dotenv (2.7.5)
     eventmachine (1.2.7)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
@@ -50,9 +51,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   faye-websocket
   octokit
   slack-ruby-client
 
 BUNDLED WITH
-   2.0.1
+   2.1.4
