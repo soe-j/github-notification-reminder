@@ -12,7 +12,7 @@ end
 def in_business_time?
   localtime = Time.now.localtime('+09:00')
   return false if localtime.saturday? || localtime.sunday?
-  return false if localtime.hour < 10 || localtime.hour > 19
+  return false if localtime.hour < 8 || localtime.hour > 22
 
   true
 end
