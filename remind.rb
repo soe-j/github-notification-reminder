@@ -39,14 +39,9 @@ attachments = notifications.map do |n|
   }
 end
 
-message = {
-  text: 'Unread notifications',
-  attachments: attachments
-}
-
 slack_client.chat_postMessage(
   channel: ENV['SLACK_CHANNEL'],
   username: 'octocat',
   icon_emoji: 'octocat',
-  **message
+  attachments: attachments
 )
