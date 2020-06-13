@@ -37,6 +37,7 @@ message = {
 
 slack_client.chat_postMessage(
   channel: ENV['SLACK_CHANNEL'],
-  as_user: true,
+  username: 'octocat',
+  icon_emoji: 'octocat',
   **message
 )
