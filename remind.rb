@@ -30,23 +30,18 @@ end
 attachments = notifications.map do |n|
   {
     color: '#36a64f',
-    author_name: n.repository.full_name,
+    author_name: n.repository.name,
     author_link: n.repository.html_url,
     title: n.subject.title,
     title_link: n.subject.url.gsub('api.github.com/repos', 'github.com').gsub('/pulls/', '/pull/'),
-    footer: n.repository.private ? ':lock:' : ':earth_asia:',
+    footer: n.reason,
     ts: n.updated_at.to_i
   }
 end
-
-message = {
-  text: 'Unread notifications',
-  attachments: attachments
-}
 
 slack_client.chat_postMessage(
   channel: ENV['SLACK_CHANNEL'],
   username: 'octocat',
   icon_emoji: 'octocat',
-  **message
+  attachments: attachments
 )
