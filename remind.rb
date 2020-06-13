@@ -1,6 +1,13 @@
+require 'dotenv'
 require 'json'
 require 'octokit'
 require 'slack-ruby-client'
+
+# no overload on production
+Dotenv.load
+%w(GITHUB_API_TOKEN SLACK_API_TOKEN SLACK_CHANNEL).each do |key|
+  raise "ENV['#{key}'] is nil!" if ENV[key].nil?
+end
 
 def in_business_time?
   localtime = Time.now.localtime('+09:00')
