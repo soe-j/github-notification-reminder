@@ -23,7 +23,9 @@ slack_client = Slack::Web::Client.new(token: ENV['SLACK_API_TOKEN'])
 notifications = github_client.notifications(participating: true)
 
 return if notifications.empty?
-return unless in_business_time?
+unless ENV['RUBY_ENV'] == 'development'
+  return unless in_business_time?
+end
 
 attachments = notifications.map do |n|
   {
