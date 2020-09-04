@@ -28,6 +28,7 @@ def filter_notifications notifications
     # dependabot
     next false if n.subject.title.start_with?('Bump ')
     next false if n.subject.title.start_with?('chore(deps): ')
+    next false if n.subject.title.start_with?('chore(deps-dev): ')
 
     next false unless n.unread
     true
